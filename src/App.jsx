@@ -1,9 +1,18 @@
-// src/App.jsx
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 
-// Vistas temporales (las construiremos en los siguientes pasos)
-const Home = () => <div className="container mt-4"><h1>Inicio</h1><p>Catálogo de productos de SaborCasero.</p></div>;
+import Catalogo from './components/Catalogo'
+
+const Home = () => (
+  <div>
+    <div className="container mt-4">
+      <h1>Inicio</h1>
+      <p>Catálogo de productos de SaborCasero.</p>
+    </div>
+
+    <Catalogo />
+  </div>
+);
 const Categorias = () => <div className="container mt-4"><h1>Categorías</h1></div>;
 const Carrito = () => <div className="container mt-4"><h1>Carrito de Compras</h1></div>;
 const Admin = () => <div className="container mt-4"><h1>Panel de Administración</h1></div>;
