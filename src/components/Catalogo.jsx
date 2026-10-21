@@ -14,8 +14,8 @@ function Catalogo() {
             <div className="card h-100">
               <img
                 src={producto.imagen}
-                className="card-img-top"
                 alt={producto.nombre}
+                className="card-img-top"
               />
 
               <div className="card-body">
