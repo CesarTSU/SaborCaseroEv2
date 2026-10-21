@@ -1,6 +1,7 @@
 
 import { useState } from "react";
 import { obtenerProductos } from "../data/datos";
+import { Link } from "react-router-dom";
 
 function Categorias() {
 
@@ -38,14 +39,23 @@ function Categorias() {
         {productosFiltrados.map(producto => (
           <div className="col-md-4 mb-4" key={producto.id}>
             <div className="card h-100">
+              <Link to={`/producto/${producto.id}`}>
               <img
                 src={producto.imagen}
                 className="card-img-top"
                 alt={producto.nombre}
               />
+              </Link>
 
               <div className="card-body">
-                <h5>{producto.nombre}</h5>
+                <h5>
+                  <Link
+                  to={`/producto/${producto.id}`}
+                  className="text-decoration-none text-dark"
+                  >
+                    {producto.nombre}
+                  </Link>
+                </h5>
                 <p>Precio: ${producto.precio.toLocaleString("es-CL")}</p>
                 <p>Tiempo de preparación: {producto.tiempo_prep} minutos</p>
               </div>

@@ -1,8 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
 
-import Catalogo from './components/Catalogo'
+import Catalogo from './components/Catalogo';
 import Categorias from './components/Categorias';
+import DetalleProducto from './components/DetalleProducto';
 
 const Home = () => (
   <div>
@@ -26,6 +27,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/categorias" element={<Categorias />} />
+          <Route path="/producto/:id"element= {<DetalleProducto/>} />
           <Route path="/carrito" element={<Carrito />} />
           <Route path="/admin" element={<Admin />} />
         </Routes>
