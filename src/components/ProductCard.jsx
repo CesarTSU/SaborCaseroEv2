@@ -1,5 +1,8 @@
 // src/components/ProductCard.jsx
+import { useCarrito } from '../context/CarritoContext';
+
 const ProductCard = ({ producto }) => {
+  const { agregar } = useCarrito();
   return (
     <div className="col-md-4 mb-4">
       <div className="card h-100 shadow-sm">
@@ -17,7 +20,7 @@ const ProductCard = ({ producto }) => {
           </p>
           <div className="mt-auto">
             <p className="fw-bold fs-5 text-dark mb-2">${producto.precio.toLocaleString('es-CL')}</p>
-            <button className="btn btn-outline-success w-100">Agregar al Carrito</button>
+            <button className="btn btn-outline-success w-100" onClick={() => agregar(producto)}>Agregar al Carrito</button>
           </div>
         </div>
       </div>

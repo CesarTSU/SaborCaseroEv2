@@ -1,8 +1,10 @@
 import { useParams } from "react-router-dom";
 import { obtenerProductoPorId } from "../data/datos";
+import { useCarrito } from "../context/CarritoContext";
 
 function DetalleProducto() {
   const { id } = useParams();
+  const { agregar } = useCarrito();
   const producto = obtenerProductoPorId(id);
 
   if (!producto) {
@@ -35,7 +37,7 @@ function DetalleProducto() {
           </p>
           <p>Stock disponible: {producto.stock}</p>
 
-          <button className="btn btn-success">
+          <button className="btn btn-success" onClick={() => agregar(producto)}>
             Agregar al carrito
           </button>
         </div>

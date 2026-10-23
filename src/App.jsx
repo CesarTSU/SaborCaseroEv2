@@ -5,11 +5,15 @@ import Catalogo from './components/Catalogo';
 import Categorias from './components/Categorias';
 import DetalleProducto from './components/DetalleProducto';
 
-const Carrito = () => <div className="container mt-4"><h1>Carrito de Compras</h1></div>;
+import Carrito from './views/Carrito';
+import Pedidos from './views/Pedidos';
+import { CarritoProvider } from './context/CarritoContext';
+
 const Admin = () => <div className="container mt-4"><h1>Panel de Administración</h1></div>;
 
 function App() {
   return (
+    <CarritoProvider>
     <Router>
       <Navbar />
       <Routes>
@@ -18,9 +22,11 @@ function App() {
         <Route path="/categorias" element={<Categorias />} />
         <Route path="/producto/:id" element={<DetalleProducto />} />
         <Route path="/carrito" element={<Carrito />} />
+        <Route path="/pedidos" element={<Pedidos />} />
         <Route path="/admin" element={<Admin />} />
       </Routes>
     </Router>
+    </CarritoProvider>
   );
 }
 
