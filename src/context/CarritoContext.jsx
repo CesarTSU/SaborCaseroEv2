@@ -118,6 +118,10 @@ export const CarritoProvider = ({ children }) => {
 
   // Solo el cliente cancela (antes de que el local lo reciba) o elimina un pedido entregado
   const eliminarPedido = (id) => {
+    if (rol === 'admin') {
+      setPedidos((prev) => prev.filter((p) => p.id !== id));
+      return;
+    }
     if (rol !== 'cliente') return;
     setPedidos((prev) =>
       prev.filter(

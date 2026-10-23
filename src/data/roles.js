@@ -1,5 +1,6 @@
 export const ROLES = {
   cliente: 'Cliente',
+  admin: 'Administrador',
   recepcion: 'Recepción',
   chef: 'Chef',
   delivery: 'Delivery',

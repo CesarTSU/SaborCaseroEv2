@@ -9,10 +9,10 @@ import Carrito from './views/Carrito';
 import Pedidos from './views/Pedidos';
 import { CarritoProvider } from './context/CarritoContext';
 import { AuthProvider } from './context/AuthContext';
+import Admin from './views/Admin';
 import Login from './views/Login';
 import RutaProtegida from './components/RutaProtegida';
 
-const Admin = () => <div className="container mt-4"><h1>Panel de Administración</h1></div>;
 
 function App() {
   return (
@@ -28,7 +28,7 @@ function App() {
         <Route path="/producto/:id" element={<DetalleProducto />} />
         <Route path="/carrito" element={<RutaProtegida roles={['cliente']}><Carrito /></RutaProtegida>} />
         <Route path="/pedidos" element={<RutaProtegida><Pedidos /></RutaProtegida>} />
-        <Route path="/admin" element={<RutaProtegida roles={['recepcion']}><Admin /></RutaProtegida>} />
+        <Route path="/admin" element={<RutaProtegida roles={['admin']}><Admin /></RutaProtegida>} />
       </Routes>
     </Router>
     </CarritoProvider>

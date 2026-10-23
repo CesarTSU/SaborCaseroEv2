@@ -10,7 +10,7 @@ const Login = () => {
   const [error, setError] = useState('');
   const navigate = useNavigate();
   const location = useLocation();
-  const destino = location.state?.desde || (sesion?.rol === 'cliente' ? '/' : '/pedidos');
+  const destino = location.state?.desde || (sesion?.rol === 'cliente' ? '/' : sesion?.rol === 'admin' ? '/admin' : '/pedidos');
 
   if (sesion) return <Navigate to={destino} replace />;
 

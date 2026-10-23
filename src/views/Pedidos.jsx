@@ -2,11 +2,11 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useCarrito } from '../context/CarritoContext';
 import { useAuth } from '../context/AuthContext';
-import { COLORES, ESTADOS, ETIQUETAS, ROLES, TRANSICIONES, puedeAvanzar } from '../data/roles';
+import { COLORES, ESTADOS, ETIQUETAS, TRANSICIONES, puedeAvanzar } from '../data/roles';
 
 const Pedidos = () => {
   const { pedidos, avanzarPedido, eliminarPedido } = useCarrito();
-  const { rol, usuario } = useAuth();
+  const { rol, roles, usuario } = useAuth();
   const [soloMios, setSoloMios] = useState(true);
 
   const esCliente = rol === 'cliente';
@@ -19,7 +19,7 @@ const Pedidos = () => {
   return (
     <div className="container mt-4">
       <div className="d-flex justify-content-between align-items-center">
-        <h1>{esCliente ? 'Mis pedidos' : `Pedidos — ${ROLES[rol]}`}</h1>
+        <h1>{esCliente ? 'Mis pedidos' : `Pedidos — ${roles[rol] ?? rol}`}</h1>
         {!esCliente && (
           <div className="form-check form-switch">
             <input id="soloMios" className="form-check-input" type="checkbox" checked={soloMios} onChange={(e) => setSoloMios(e.target.checked)} />
