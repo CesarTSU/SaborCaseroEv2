@@ -1,5 +1,86 @@
+:root {
+  --sc-peach: #ffd9b8;
+  --sc-cream: #fffaf4;
+  --sc-accent: #d9642b;
+  --sc-accent-dark: #b24d1c;
+  --sc-brown: #3f2a1d;
+  --sc-brown-soft: #7a5c48;
+  --sc-sage: #5f8a5b;
+  --sc-sage-dark: #4a7047;
+  --sc-border: #ecd2b8;
+  --bs-body-color: var(--sc-brown);
+  --bs-secondary-color: var(--sc-brown-soft);
+}
+
+html {
+  min-height: 100%;
+  background: linear-gradient(180deg, var(--sc-peach) 0%, #ffe8d3 35%, var(--sc-cream) 100%) no-repeat fixed;
+}
+
 body {
   text-align: center;
+  background: transparent;
+  color: var(--sc-brown);
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 { color: var(--sc-brown); }
+a { color: var(--sc-accent); }
+a:hover { color: var(--sc-accent-dark); }
+.text-muted { color: var(--sc-brown-soft) !important; }
+
+.navbar,
+.navbar.bg-light,
+.bg-light {
+  background-color: rgba(255, 250, 244, 0.85) !important;
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--sc-border);
+}
+.navbar-brand { color: var(--sc-accent-dark) !important; font-weight: 700; }
+.navbar .nav-link { color: var(--sc-brown) !important; }
+.navbar .nav-link:hover { color: var(--sc-accent) !important; }
+.bg-secondary { background-color: var(--sc-brown-soft) !important; }
+
+.btn-success {
+  --bs-btn-bg: var(--sc-accent);
+  --bs-btn-border-color: var(--sc-accent);
+  --bs-btn-hover-bg: var(--sc-accent-dark);
+  --bs-btn-hover-border-color: var(--sc-accent-dark);
+  --bs-btn-active-bg: var(--sc-accent-dark);
+  --bs-btn-active-border-color: var(--sc-accent-dark);
+  --bs-btn-disabled-bg: var(--sc-accent);
+  --bs-btn-disabled-border-color: var(--sc-accent);
+}
+.btn-outline-success,
+.btn-outline-primary {
+  --bs-btn-color: var(--sc-accent);
+  --bs-btn-border-color: var(--sc-accent);
+  --bs-btn-hover-bg: var(--sc-accent);
+  --bs-btn-hover-border-color: var(--sc-accent);
+  --bs-btn-active-bg: var(--sc-accent-dark);
+  --bs-btn-active-border-color: var(--sc-accent-dark);
+}
+.btn-outline-dark,
+.btn-outline-secondary {
+  --bs-btn-color: var(--sc-brown);
+  --bs-btn-border-color: var(--sc-brown-soft);
+  --bs-btn-hover-bg: var(--sc-brown);
+  --bs-btn-hover-border-color: var(--sc-brown);
+  --bs-btn-active-bg: var(--sc-brown);
+  --bs-btn-active-border-color: var(--sc-brown);
+}
+.btn-light {
+  --bs-btn-bg: var(--sc-cream);
+  --bs-btn-border-color: var(--sc-border);
+  --bs-btn-color: var(--sc-brown);
+  --bs-btn-hover-bg: #ffe8d3;
+  --bs-btn-hover-border-color: var(--sc-accent);
+}
+.btn-outline-danger { --bs-btn-color: #b3392f; --bs-btn-border-color: #b3392f; --bs-btn-hover-bg: #b3392f; --bs-btn-hover-border-color: #b3392f; }
+
+.form-control:focus, .form-select:focus {
+  border-color: var(--sc-accent);
+  box-shadow: 0 0 0 0.2rem rgba(217, 100, 43, 0.2);
 }
 
 .card-img-top {
@@ -8,8 +89,8 @@ body {
   object-fit: cover;
 }
 .card {
-  background-color: #fff8eb;
-  border: 1px solid #e8c9a5;
+  background-color: var(--sc-cream);
+  border: 1px solid var(--sc-border);
   border-radius: 10px;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(100, 60, 20, 0.30);
