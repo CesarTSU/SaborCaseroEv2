@@ -1,7 +1,9 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useCarrito } from '../context/CarritoContext';
+import { useAuth } from '../context/AuthContext';
 
 const Carrito = () => {
+  const { rol } = useAuth();
   const { items, total, cambiarCantidad, quitar, vaciar, crearPedido } = useCarrito();
   const navigate = useNavigate();
 
@@ -48,7 +50,7 @@ const Carrito = () => {
       <h4 className="text-end">Total: ${total.toLocaleString('es-CL')}</h4>
       <div className="d-flex justify-content-end gap-2">
         <button className="btn btn-outline-secondary" onClick={vaciar}>Vaciar</button>
-        <button className="btn btn-success" onClick={realizarPedido}>Realizar pedido</button>
+        <button className="btn btn-success" disabled={rol !== 'cliente'} title={rol !== 'cliente' ? 'Solo el cliente puede realizar pedidos' : ''} onClick={realizarPedido}>Realizar pedido</button>
       </div>
     </div>
   );

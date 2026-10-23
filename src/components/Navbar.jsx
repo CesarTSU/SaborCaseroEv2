@@ -1,8 +1,18 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useCarrito } from '../context/CarritoContext';
+import { useAuth } from '../context/AuthContext';
+import { ROLES } from '../data/roles';
 
 const Navbar = () => {
   const { cantidadTotal } = useCarrito();
+  const { usuario, rol, logout } = useAuth();
+  const navigate = useNavigate();
+
+  const salir = () => {
+    logout();
+    navigate('/login');
+  };
+
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light shadow-sm">
       <div className="container">
@@ -19,10 +29,20 @@ const Navbar = () => {
               <Link className="nav-link" to="/categorias">Categorías</Link>
             </li>
           </ul>
-          <div className="d-flex">
-            <Link to="/pedidos" className="btn btn-outline-success me-2">Pedidos</Link>
-            <Link to="/carrito" className="btn btn-success me-2">🛒 Carrito ({cantidadTotal})</Link>
-            <Link to="/admin" className="btn btn-outline-dark">Admin</Link>
+          <div className="d-flex align-items-center">
+            {usuario ? (
+              <>
+                <span className="me-2 small text-muted">{usuario.nombre} · {ROLES[rol]}</span>
+                <Link to="/pedidos" className="btn btn-outline-success me-2">Pedidos</Link>
+                {rol === 'cliente' && (
+                  <Link to="/carrito" className="btn btn-success me-2">🛒 Carrito ({cantidadTotal})</Link>
+                )}
+                {rol === 'recepcion' && <Link to="/admin" className="btn btn-outline-dark me-2">Admin</Link>}
+                <button className="btn btn-outline-secondary" onClick={salir}>Salir</button>
+              </>
+            ) : (
+              <Link to="/login" className="btn btn-success">Iniciar sesión</Link>
+            )}
           </div>
         </div>
       </div>

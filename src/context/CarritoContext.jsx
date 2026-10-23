@@ -1,10 +1,17 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 
-// eslint-disable-next-line react-refresh/only-export-components
-export const ESTADOS = ['pedido', 'confirmado', 'enviado', 'recibido', 'entregado'];
+import { ESTADOS, MIGRACION, puedeAvanzar } from '../data/roles';
+import { useAuth } from './AuthContext';
 
 const CLAVE_CARRITO = 'sc_carrito';
 const CLAVE_PEDIDOS = 'sc_pedidos';
+
+const migrar = (pedidos) =>
+  pedidos.map((p) => ({
+    ...p,
+    estado: MIGRACION[p.estado] ?? p.estado,
+    historial: (p.historial || []).map((h) => ({ ...h, estado: MIGRACION[h.estado] ?? h.estado })),
+  }));
 
 const leer = (clave) => {
   try {
@@ -22,7 +29,17 @@ export const useCarrito = () => useContext(CarritoContext);
 
 export const CarritoProvider = ({ children }) => {
   const [items, setItems] = useState(() => leer(CLAVE_CARRITO));
-  const [pedidos, setPedidos] = useState(() => leer(CLAVE_PEDIDOS));
+  const [pedidos, setPedidos] = useState(() => migrar(leer(CLAVE_PEDIDOS)));
+  const { rol, usuario } = useAuth();
+
+  // Sincroniza entre pestañas (ej. cliente en una, chef en otra)
+  useEffect(() => {
+    const alCambiar = (e) => {
+      if (e.key === CLAVE_PEDIDOS) setPedidos(migrar(leer(CLAVE_PEDIDOS)));
+    };
+    window.addEventListener('storage', alCambiar);
+    return () => window.removeEventListener('storage', alCambiar);
+  }, []);
 
   useEffect(() => {
     localStorage.setItem(CLAVE_CARRITO, JSON.stringify(items));
@@ -33,6 +50,7 @@ export const CarritoProvider = ({ children }) => {
   }, [pedidos]);
 
   const agregar = (producto) => {
+    if (rol && rol !== 'cliente') return;
     setItems((prev) => {
       const existente = prev.find((i) => i.id === producto.id);
       if (existente) {
@@ -69,10 +87,11 @@ export const CarritoProvider = ({ children }) => {
 
   // Convierte el carrito en un pedido con estado inicial "pedido"
   const crearPedido = () => {
-    if (items.length === 0) return null;
+    if (rol !== 'cliente' || items.length === 0) return null;
     const ahora = new Date().toISOString();
     const pedido = {
       id: `PED${Date.now()}`,
+      cliente: usuario.usuario,
       items,
       total,
       estado: ESTADOS[0],
@@ -87,7 +106,7 @@ export const CarritoProvider = ({ children }) => {
     setPedidos((prev) =>
       prev.map((p) => {
         const siguiente = ESTADOS[ESTADOS.indexOf(p.estado) + 1];
-        if (p.id !== id || !siguiente) return p;
+        if (p.id !== id || !siguiente || !puedeAvanzar(rol, p.estado)) return p;
         return {
           ...p,
           estado: siguiente,
@@ -97,7 +116,15 @@ export const CarritoProvider = ({ children }) => {
     );
   };
 
-  const eliminarPedido = (id) => setPedidos((prev) => prev.filter((p) => p.id !== id));
+  // Solo el cliente cancela (antes de que el local lo reciba) o elimina un pedido entregado
+  const eliminarPedido = (id) => {
+    if (rol !== 'cliente') return;
+    setPedidos((prev) =>
+      prev.filter(
+        (p) => p.id !== id || p.cliente !== usuario.usuario || !(p.estado === 'pedido' || p.estado === 'entregado')
+      )
+    );
+  };
 
   return (
     <CarritoContext.Provider

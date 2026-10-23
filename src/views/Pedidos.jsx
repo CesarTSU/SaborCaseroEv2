@@ -1,35 +1,42 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ESTADOS, useCarrito } from '../context/CarritoContext';
-
-const ACCIONES = {
-  pedido: 'Confirmar compra',
-  confirmado: 'Enviar orden',
-  enviado: 'Marcar como recibido',
-  recibido: 'Marcar como entregado',
-};
-
-const COLORES = {
-  pedido: 'secondary',
-  confirmado: 'primary',
-  enviado: 'info',
-  recibido: 'warning',
-  entregado: 'success',
-};
+import { useCarrito } from '../context/CarritoContext';
+import { useAuth } from '../context/AuthContext';
+import { COLORES, ESTADOS, ETIQUETAS, ROLES, TRANSICIONES, puedeAvanzar } from '../data/roles';
 
 const Pedidos = () => {
   const { pedidos, avanzarPedido, eliminarPedido } = useCarrito();
+  const { rol, usuario } = useAuth();
+  const [soloMios, setSoloMios] = useState(true);
+
+  const esCliente = rol === 'cliente';
+  const visibles = esCliente
+    ? pedidos.filter((p) => p.cliente === usuario.usuario)
+    : soloMios
+      ? pedidos.filter((p) => puedeAvanzar(rol, p.estado))
+      : pedidos;
 
   return (
     <div className="container mt-4">
-      <h1>Mis pedidos</h1>
-      {pedidos.length === 0 && (
-        <p className="text-muted">Aún no tienes pedidos. <Link to="/categorias">Ver productos</Link></p>
+      <div className="d-flex justify-content-between align-items-center">
+        <h1>{esCliente ? 'Mis pedidos' : `Pedidos — ${ROLES[rol]}`}</h1>
+        {!esCliente && (
+          <div className="form-check form-switch">
+            <input id="soloMios" className="form-check-input" type="checkbox" checked={soloMios} onChange={(e) => setSoloMios(e.target.checked)} />
+            <label htmlFor="soloMios" className="form-check-label">Solo los que debo atender</label>
+          </div>
+        )}
+      </div>
+      {visibles.length === 0 && (
+        <p className="text-muted">
+          {esCliente ? <>Aún no tienes pedidos. <Link to="/categorias">Ver productos</Link></> : 'No hay pedidos pendientes para tu rol.'}
+        </p>
       )}
-      {pedidos.map((p) => (
+      {visibles.map((p) => (
         <div key={p.id} className="card mb-3 shadow-sm">
           <div className="card-header d-flex justify-content-between align-items-center">
             <strong>{p.id}</strong>
-            <span className={`badge bg-${COLORES[p.estado]} text-uppercase`}>{p.estado}</span>
+            <span className={`badge bg-${COLORES[p.estado]}`}>{ETIQUETAS[p.estado]}</span>
           </div>
           <div className="card-body">
             <ul className="mb-2">
@@ -39,19 +46,19 @@ const Pedidos = () => {
             </ul>
             <p className="fw-bold">Total: ${p.total.toLocaleString('es-CL')}</p>
             <ol className="small text-muted">
-              {ESTADOS.map((e) => {
+              {ESTADOS.filter((e) => p.historial.some((h) => h.estado === e)).map((e) => {
                 const registro = p.historial.find((h) => h.estado === e);
                 return (
-                  <li key={e} className={registro ? 'text-dark' : ''}>
-                    {e}{registro && ` — ${new Date(registro.fecha).toLocaleString('es-CL')}`}
+                  <li key={e} className="text-dark">
+                    {ETIQUETAS[e]} — {new Date(registro.fecha).toLocaleString('es-CL')}
                   </li>
                 );
               })}
             </ol>
-            {ACCIONES[p.estado] ? (
-              <button className="btn btn-success me-2" onClick={() => avanzarPedido(p.id)}>{ACCIONES[p.estado]}</button>
-            ) : null}
-            {(p.estado === 'pedido' || p.estado === 'entregado') && (
+            {puedeAvanzar(rol, p.estado) && (
+              <button className="btn btn-success me-2" onClick={() => avanzarPedido(p.id)}>{TRANSICIONES[p.estado].accion}</button>
+            )}
+            {esCliente && (p.estado === 'pedido' || p.estado === 'entregado') && (
               <button className="btn btn-outline-danger" onClick={() => eliminarPedido(p.id)}>
                 {p.estado === 'pedido' ? 'Cancelar' : 'Eliminar'}
               </button>
