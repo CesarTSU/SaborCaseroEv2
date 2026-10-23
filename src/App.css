@@ -102,3 +102,15 @@ a:hover { color: var(--sc-accent-dark); }
   transform: translateY(-5px);
   box-shadow: 0 6px 16px rgba(92, 48, 29, 0.28);
 }
+
+.carrito-table-container {
+  overflow: hidden;
+  border: 1px solid var(--sc-border);
+  border-radius: 8px;
+  background-color: #fff1e5;
+}
+
+.carrito-table-container .table {
+  --bs-table-bg: #fff1e5;
+  --bs-table-border-color: var(--sc-border);
+}
