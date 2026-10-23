@@ -1,20 +1,20 @@
 :root {
-  --sc-peach: #ffd9b8;
-  --sc-cream: #fffaf4;
-  --sc-accent: #d9642b;
-  --sc-accent-dark: #b24d1c;
-  --sc-brown: #3f2a1d;
-  --sc-brown-soft: #7a5c48;
+  --sc-peach: #d98b63;
+  --sc-cream: #fff3e8;
+  --sc-accent: #c96f49;
+  --sc-accent-dark: #a95032;
+  --sc-brown: #422b22;
+  --sc-brown-soft: #765747;
   --sc-sage: #5f8a5b;
   --sc-sage-dark: #4a7047;
-  --sc-border: #ecd2b8;
+  --sc-border: #dfb395;
   --bs-body-color: var(--sc-brown);
   --bs-secondary-color: var(--sc-brown-soft);
 }
 
 html {
   min-height: 100%;
-  background: linear-gradient(180deg, var(--sc-peach) 0%, #ffe8d3 35%, var(--sc-cream) 100%) no-repeat fixed;
+  background: linear-gradient(180deg, var(--sc-peach) 0%, #e5a77e 38%, #f0c19e 100%) no-repeat fixed;
 }
 
 body {
@@ -32,7 +32,7 @@ a:hover { color: var(--sc-accent-dark); }
 .navbar,
 .navbar.bg-light,
 .bg-light {
-  background-color: rgba(255, 250, 244, 0.85) !important;
+  background-color: rgba(255, 243, 232, 0.9) !important;
   backdrop-filter: blur(6px);
   border-bottom: 1px solid var(--sc-border);
 }
@@ -73,14 +73,14 @@ a:hover { color: var(--sc-accent-dark); }
   --bs-btn-bg: var(--sc-cream);
   --bs-btn-border-color: var(--sc-border);
   --bs-btn-color: var(--sc-brown);
-  --bs-btn-hover-bg: #ffe8d3;
+  --bs-btn-hover-bg: #f8dfca;
   --bs-btn-hover-border-color: var(--sc-accent);
 }
 .btn-outline-danger { --bs-btn-color: #b3392f; --bs-btn-border-color: #b3392f; --bs-btn-hover-bg: #b3392f; --bs-btn-hover-border-color: #b3392f; }
 
 .form-control:focus, .form-select:focus {
   border-color: var(--sc-accent);
-  box-shadow: 0 0 0 0.2rem rgba(217, 100, 43, 0.2);
+  box-shadow: 0 0 0 0.2rem rgba(201, 111, 73, 0.22);
 }
 
 .card-img-top {
@@ -93,12 +93,12 @@ a:hover { color: var(--sc-accent-dark); }
   border: 1px solid var(--sc-border);
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(100, 60, 20, 0.30);
+  box-shadow: 0 4px 12px rgba(92, 48, 29, 0.22);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 
 }
 
 .card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 6px 16px rgba(100, 60, 20, 0.30);
+  box-shadow: 0 6px 16px rgba(92, 48, 29, 0.28);
 }
