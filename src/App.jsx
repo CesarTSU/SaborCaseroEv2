@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar';
+import Footer from './components/Footer';
 import Home from './views/Home';
 import Catalogo from './components/Catalogo';
 import Categorias from './components/Categorias';
@@ -35,6 +36,7 @@ function App() {
         <Route path="/pedidos" element={<RutaProtegida><Pedidos /></RutaProtegida>} />
         <Route path="/admin" element={<RutaProtegida roles={['admin']}><Admin /></RutaProtegida>} />
       </Routes>
+      <Footer />
     </Router>
     </CarritoProvider>
     </AuthProvider>
