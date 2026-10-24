@@ -11,6 +11,8 @@ import { CarritoProvider } from './context/CarritoContext';
 import { AuthProvider } from './context/AuthContext';
 import Admin from './views/Admin';
 import Login from './views/Login';
+import Nosotros from './views/Nosotros';
+import { Blog, BlogArticulo } from './views/Blog';
 import RutaProtegida from './components/RutaProtegida';
 
 
@@ -22,6 +24,9 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/nosotros" element={<Nosotros />} />
+        <Route path="/blog" element={<Blog />} />
+        <Route path="/blog/:slug" element={<BlogArticulo />} />
         <Route path="/login" element={<Login />} />
         <Route path="/catalogo" element={<Catalogo />} />
         <Route path="/categorias" element={<Categorias />} />
